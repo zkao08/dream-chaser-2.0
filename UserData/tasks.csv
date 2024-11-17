@@ -1,0 +1,50 @@
+username,goalName,taskName,timeToCompleteHours,timeToCompleteMinutes,loggedTimeHours,loggedTimeMinutes,isComplete
+john_doe,Learn Java,Read Chapter 1,2,30,2,35,true
+john_doe,Learn Java,Write a program,1,45,1,30,false
+current_user,Learn HTML,Set up text editor,1,30,0,0,false
+current_user,Learn HTML,Learn basic HTML tags,2,0,0,0,false
+current_user,Learn HTML,Practice creating a simple webpage,1,30,0,0,false
+current_user,Learn HTML,Study CSS basics,2,0,0,0,false
+current_user,Learn HTML,Combine CSS with HTML,1,30,0,0,false
+current_user,Learn HTML,Create a styled webpage,2,30,0,0,false
+current_user,Learn HTML,Learn about responsive design,2,0,0,0,false
+current_user,Learn HTML,Practice creating a responsive webpage,2,30,0,0,false
+current_user,Learn HTML,Review and test knowledge,1,30,0,0,false
+current_user,Learn HTML,Html,5,4,0,0,false
+null,Learn Python,SetupPythonEnvironment,1,0,0,0,false
+null,Learn Python,LearnBasicSyntax,3,0,0,0,false
+null,Learn Python,PracticeVariables,2,30,0,0,false
+null,Learn Python,ExploreDataStructures,4,0,0,0,false
+null,Learn Python,UnderstandFunctions,3,30,0,0,false
+null,Learn Python,MasterControlFlow,4,0,0,0,false
+null,Learn Python,DiveIntoModules,3,0,0,0,false
+null,Learn Python,WorkWithFiles,2,30,0,0,false
+null,Learn Python,CreateMiniProject1,4,0,0,0,false
+null,Learn Python,DebuggingTechniques,2,30,0,0,false
+null,Learn Python,OptimizeCode,3,0,0,0,false
+null,Learn Python,CreateMiniProject2,4,0,0,0,false
+null,Learn Python,ReviewAndPractice,3,30,0,0,false
+null,Learn Python,FinalizeProjects,2,0,0,0,false
+null,Learn Python,InstallPython,1,30,0,0,false
+null,Learn Python,SetupDevelopmentEnvironment,1,0,0,0,false
+null,Learn Python,UnderstandBasicSyntax,2,0,0,0,false
+null,Learn Python,LearnDataTypes,2,30,0,0,false
+null,Learn Python,PracticeLoops,2,0,0,0,false
+null,Learn Python,ExploreConditionalStatements,1,30,0,0,false
+null,Learn Python,CreateFunctions,2,0,0,0,false
+null,Learn Python,WorkWithLists,2,30,0,0,false
+null,Learn Python,DictionariesAndSets,1,30,0,0,false
+null,Learn Python,FileIOOperations,2,0,0,0,false
+null,Learn Python,ErrorHandlingTechniques,1,30,0,0,false
+null,Learn Python,AdvancedTopics,3,0,0,0,false
+null,Learn Python,ProjectPractice,3,0,0,0,false
+null,Learn Python,installpython,1,30,0,0,false
+null,Learn Python,explorebasicssyntax,2,0,0,0,false
+null,Learn Python,practicecodingexercises,3,0,0,0,false
+null,Learn Python,studycontrolflow,2,30,0,0,false
+null,Learn Python,workonfunctions,2,0,0,0,false
+null,Learn Python,learndatastructures,3,30,0,0,false
+null,Learn Python,explorefilehandling,1,30,0,0,false
+null,Learn Python,practicemodules,2,0,0,0,false
+null,Learn Python,experimentwitherrorhandling,1,30,0,0,false
+null,Learn Python,createproject,3,0,0,0,false
