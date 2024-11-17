@@ -27,7 +27,7 @@ public class TestAIAssistant {
 
     public static void main(String[] args) {
         // Load environment variables from .env file
-        String envFilePath = "./.env"; // Adjust path as needed
+        String envFilePath = ".env"; // Adjust path as needed
         AIAssistant.loadEnvFile(envFilePath);
 
         // Use AIAssistant to get tasks for a goal

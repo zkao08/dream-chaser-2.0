@@ -43,18 +43,18 @@ public class AIAssistant
      * Load ENV variables into system properties
      * Used to set the ChatGPT API key
      *
-     * @param filePath : the filepath of the ..env file
+     * @param resourcePath : the filepath of the ..env file
      */
-    public static void loadEnvFile(String filePath)
+    public static void loadEnvFile(String resourcePath)
     {
         Properties properties = new Properties();
-        try
-        {
-            File envFile = new File(filePath);
-            if (envFile.exists())
+        try {
+            // Load the .env file from resources
+            InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(resourcePath);
+
+            if (inputStream != null)
             {
-                FileInputStream fileInputStream = new FileInputStream(envFile);
-                properties.load(fileInputStream);
+                properties.load(inputStream);
 
                 // Set each property as a system environment variable
                 for (String key : properties.stringPropertyNames())
@@ -63,11 +63,11 @@ public class AIAssistant
                     System.setProperty(key, value);
                 }
 
-                fileInputStream.close();
+                inputStream.close();
             }
             else
             {
-                System.out.println("..env file not found at " + filePath);
+                System.out.println(".env file not found at " + resourcePath);
             }
         }
         catch (IOException e)

@@ -1,4 +1,4 @@
-.env
+resources/.env
 
 # IntelliJ IDEA-specific files
 .idea/

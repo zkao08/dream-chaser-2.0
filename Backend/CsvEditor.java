@@ -10,11 +10,23 @@ public class CsvEditor {
     private static final String GOALS_FILE = "UserData/goals.csv";
     private static final String TASKS_FILE = "UserData/tasks.csv";
 
+    // Ensure directory exists
+    private static void ensureDirectoryExists(String filePath)
+    {
+        File file = new File(filePath);
+        File parentDir = file.getParentFile();
+        if (parentDir != null && !parentDir.exists())
+        {
+            parentDir.mkdirs();
+        }
+    }
+
     // Method to log time to a task and update tasks.csv
     public static void logTimeToTask(String username, String goalName, String taskName, int hours, int minutes) {
         List<String> updatedLines = new ArrayList<>();
         boolean taskFound = false;
 
+        ensureDirectoryExists(TASKS_FILE);
         try (BufferedReader reader = new BufferedReader(new FileReader(TASKS_FILE))) {
             String line;
             String header = reader.readLine(); // Read header
@@ -54,6 +66,7 @@ public class CsvEditor {
 
     // Write users to CSV
     public static void writeUsers(List<User> users) {
+        ensureDirectoryExists(USERS_FILE);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(USERS_FILE))) {
             writer.write("username,password\n");
             for (User user : users) {
@@ -66,6 +79,7 @@ public class CsvEditor {
 
     // Write goals to CSV
     public static void writeGoals(List<User> users) {
+        ensureDirectoryExists(GOALS_FILE);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(GOALS_FILE))) {
             writer.write("username,goalName\n");
             for (User user : users) {
@@ -80,6 +94,7 @@ public class CsvEditor {
 
     // Write tasks to CSV
     public static void writeTasks(List<User> users) {
+        ensureDirectoryExists(TASKS_FILE);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(TASKS_FILE))) {
             writer.write("username,goalName,taskName,timeToCompleteHours,timeToCompleteMinutes,loggedTimeHours,loggedTimeMinutes,isComplete\n");
             for (User user : users) {
@@ -97,6 +112,8 @@ public class CsvEditor {
 
     // Add a new goal with tasks to CSV
     public static void writeGoalAndTasks(String username, Goal goal) {
+        ensureDirectoryExists(GOALS_FILE);
+        ensureDirectoryExists(TASKS_FILE);
         try (BufferedWriter goalWriter = new BufferedWriter(new FileWriter(GOALS_FILE, true));
              BufferedWriter taskWriter = new BufferedWriter(new FileWriter(TASKS_FILE, true))) {
 
@@ -118,6 +135,7 @@ public class CsvEditor {
 
     // Read users from CSV
     public static List<User> readUsers() {
+        ensureDirectoryExists(USERS_FILE);
         List<User> users = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(USERS_FILE))) {
             String line = reader.readLine(); // Skip header
@@ -135,6 +153,7 @@ public class CsvEditor {
 
     // Read goals from CSV
     public static void readGoals(List<User> users) {
+        ensureDirectoryExists(GOALS_FILE);
         try (BufferedReader reader = new BufferedReader(new FileReader(GOALS_FILE))) {
             String line = reader.readLine(); // Skip header
             while ((line = reader.readLine()) != null) {
@@ -155,6 +174,7 @@ public class CsvEditor {
 
     // Read tasks from CSV
     public static void readTasks(List<User> users) {
+        ensureDirectoryExists(TASKS_FILE);
         try (BufferedReader reader = new BufferedReader(new FileReader(TASKS_FILE))) {
             String line = reader.readLine(); // Skip header
             while ((line = reader.readLine()) != null) {

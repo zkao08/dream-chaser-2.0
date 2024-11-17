@@ -111,7 +111,7 @@ public class GoalCreationScreen extends JPanel {
         try {
             LocalDate dueDate = LocalDate.parse(dueDateString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-            String envFilePath = "./.env";
+            String envFilePath = ".env";
             AIAssistant.loadEnvFile(envFilePath);
             ArrayList<Task> tasks = AIAssistant.getTasksAI(goalName, dueDate);
 
