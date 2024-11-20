@@ -1,3 +1,13 @@
+/**
+ * Package Report Screen class
+ *
+ * Main home screen of the app, shows progress bars and has buttons for the main features
+ * of the application
+ *
+ * @version 2.0
+ * @since 11/20/2024
+ */
+
 package Frontend;
 
 import java.awt.*;
@@ -13,6 +23,8 @@ import java.util.List;
 import java.util.Set;
 
 public class ProgressReportScreen extends JPanel {
+
+    //attributes
     private CardLayout cardLayout;
     private JPanel mainPanel;
     private DreamChaserApp app; // Reference to the app
@@ -26,16 +38,17 @@ public class ProgressReportScreen extends JPanel {
     StatisticsService statsService = new StatisticsService();
 
     public ProgressReportScreen(CardLayout cardLayout, JPanel mainPanel, DreamChaserApp app) {
+        //create the screen layout
         this.cardLayout = cardLayout;
         this.mainPanel = mainPanel;
         this.app = app;
         this.setOpaque(true);
 
-
-
+        //load background image from file
         backgroundImage = new ImageIcon(getClass().getResource("/resources/Images/AllPageBackground.png")).getImage();
         setLayout(new BorderLayout());
 
+        //create the header label
         JLabel title = new JLabel("Progress Report", SwingConstants.CENTER);
         title.setFont(new Font("Verdana", Font.BOLD, 40));
         title.setForeground(Color.decode("#021f37"));
@@ -44,8 +57,6 @@ public class ProgressReportScreen extends JPanel {
         // Content panel to hold progress bars
         contentPanel = new JPanel();
         contentPanel.setOpaque(false);
-
-
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         add(contentPanel, BorderLayout.CENTER);
 
@@ -55,25 +66,29 @@ public class ProgressReportScreen extends JPanel {
         buttonPanelWrapper.setOpaque(false);
         buttonPanelWrapper.setBorder(BorderFactory.createEmptyBorder(50, 0, 300, 0)); // Adjust the bottom margin to move it higher
 
-
         // Button panel for navigation
         JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
         buttonPanel.setLayout(new FlowLayout());
 
-        // Create buttons with the custom style
+        // Create buttons for main functions
+
+        //statistics
         JButton statisticsButton = createStyledButton("Statistics");
         statisticsButton.addActionListener(e -> showStatisticsMenu(statisticsButton));
         buttonPanel.add(statisticsButton);
 
+        //add time
         JButton addTimeButton = createStyledButton("Add Time");
         addTimeButton.addActionListener(e -> showAddTimeMenu(addTimeButton));
         buttonPanel.add(addTimeButton);
 
+        //study sessions
         JButton studySessionButton = createStyledButton("Start Study Session");
         studySessionButton.addActionListener(e -> showStudySessionMenu(studySessionButton));
         buttonPanel.add(studySessionButton);
 
+        //create goal
         JButton goalCreationButton = createStyledButton("Create Goal");
         goalCreationButton.addActionListener(e -> app.navigateToScreen("GoalCreation")); // Use navigateToScreen
         buttonPanel.add(goalCreationButton);
@@ -82,12 +97,11 @@ public class ProgressReportScreen extends JPanel {
             app.navigateToScreen("GoalCreation");
         });
 
-
-
-
+        //add the button panel to the layout
         buttonPanelWrapper.add(buttonPanel, BorderLayout.CENTER);
         add(buttonPanelWrapper, BorderLayout.SOUTH);
     }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -96,6 +110,7 @@ public class ProgressReportScreen extends JPanel {
             g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
         }
     }
+
     /**
      * Creates a custom-styled button with rounded corners and specified colors.
      */
@@ -141,27 +156,30 @@ public class ProgressReportScreen extends JPanel {
         contentPanel.removeAll(); // Clear previous progress bars
         user = app.getCurrentUser();
         List<Goal> goals = user.getGoals();
-        System.out.println("TESTING");
-        System.out.println(goals);
         System.out.println("PROGRESS BAR GOALS:" + goals);
 
         // Use a HashSet to track displayed goal names
         Set<String> displayedGoalNames = new HashSet<>();
 
-        contentPanel.setLayout(new GridBagLayout()); // Use GridBagLayout for precise alignment
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(20, 0, 20, 0); // Add spacing between components
-        gbc.fill = GridBagConstraints.NONE; // No automatic resizing
-        gbc.gridx = 0;
+        //use grid bag layout for alignment
+        contentPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        // Add spacing between components
+        gridBagConstraints.insets = new Insets(20, 0, 20, 0);
+        // No automatic resizing
+        gridBagConstraints.fill = GridBagConstraints.NONE;
+        gridBagConstraints.gridx = 0;
 
+        //only display progress bars if there is a goal to display
         if (goals.isEmpty()) {
             JLabel noGoalsLabel = new JLabel("No goals available.", SwingConstants.CENTER);
             noGoalsLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
             noGoalsLabel.setForeground(Color.decode("#021f37"));
-            gbc.gridy = 0;
-            contentPanel.add(noGoalsLabel, gbc);
+            gridBagConstraints.gridy = 0;
+            contentPanel.add(noGoalsLabel, gridBagConstraints);
         } else {
-            int row = 0; // Track rows for alignment
+            //track rows for alignment
+            int row = 0;
             for (Goal goal : goals) {
                 // Skip duplicate goal names
                 if (displayedGoalNames.contains(goal.getGoalName())) {
@@ -188,15 +206,15 @@ public class ProgressReportScreen extends JPanel {
                 JLabel goalLabel = new JLabel(goal.getGoalName(), SwingConstants.CENTER);
                 goalLabel.setFont(new Font("Verdana", Font.BOLD, 24)); // Larger font for the goal title
                 goalLabel.setForeground(Color.decode("#021f37"));
-                gbc.gridy = row++;
-                contentPanel.add(goalLabel, gbc);
+                gridBagConstraints.gridy = row++;
+                contentPanel.add(goalLabel, gridBagConstraints);
 
                 // Days left label under the goal title
                 JLabel daysLeftLabel = new JLabel(daysLeftText, SwingConstants.CENTER);
                 daysLeftLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
                 daysLeftLabel.setForeground(Color.decode("#021f37"));
-                gbc.gridy = row++;
-                contentPanel.add(daysLeftLabel, gbc);
+                gridBagConstraints.gridy = row++;
+                contentPanel.add(daysLeftLabel, gridBagConstraints);
 
                 // Custom-styled progress bar
                 JProgressBar progressBar = new JProgressBar(0, 100) {
@@ -215,11 +233,15 @@ public class ProgressReportScreen extends JPanel {
                         g2.fillRoundRect(0, 0, progressWidth, getHeight(), 20, 20);
                     }
                 };
+
+                //set size and value of progress bar
                 progressBar.setValue(progressValue);
-                progressBar.setPreferredSize(new Dimension(600, 40)); // Larger and wider bar
-                progressBar.setBorder(BorderFactory.createEmptyBorder()); // Remove default border
-                gbc.gridy = row++;
-                contentPanel.add(progressBar, gbc);
+                progressBar.setPreferredSize(new Dimension(600, 40));
+                progressBar.setBorder(BorderFactory.createEmptyBorder());
+                gridBagConstraints.gridy = row++;
+
+                //add the progress bar to the grid
+                contentPanel.add(progressBar, gridBagConstraints);
             }
         }
 
@@ -227,6 +249,11 @@ public class ProgressReportScreen extends JPanel {
         contentPanel.repaint();
     }
 
+    /**
+     * Create a dropdown to navigate to the stats screen for a specific goal
+     *
+     * @param button
+     */
     private void showStatisticsMenu(JButton button) {
         JPopupMenu statisticsMenu = new JPopupMenu();
         user = app.getCurrentUser();
@@ -254,7 +281,11 @@ public class ProgressReportScreen extends JPanel {
         statisticsMenu.show(button, 0, button.getHeight());
     }
 
-
+    /**
+     * Create a dropdown menu to select the goal to add time to
+     *
+     * @param button
+     */
     private void showAddTimeMenu(JButton button) {
         JPopupMenu addTimeMenu = new JPopupMenu();
         user = app.getCurrentUser();
@@ -275,6 +306,11 @@ public class ProgressReportScreen extends JPanel {
         addTimeMenu.show(button, 0, button.getHeight());
     }
 
+    /**
+     * Create a context menu for adding time to the specific tasks for a goal
+     *
+     * @param goal
+     */
     private void showTasksForGoal(Goal goal) {
         JPopupMenu taskMenu = new JPopupMenu();
         List<Task> tasks = goal.getTasks();
@@ -294,6 +330,12 @@ public class ProgressReportScreen extends JPanel {
         taskMenu.show(this, getWidth() / 2, getHeight() / 2);
     }
 
+    /**
+     * Create a popup dialog for adding time to a task
+     *
+     * @param goal
+     * @param task
+     */
     private void showAddTimePopup(Goal goal, Task task) {
         JDialog addTimeDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Add Time", true);
         addTimeDialog.setLayout(new GridBagLayout());
@@ -360,6 +402,7 @@ public class ProgressReportScreen extends JPanel {
         addTimeDialog.setLocationRelativeTo(this);
         addTimeDialog.setVisible(true);
     }
+
     public void refreshContent() {
         updateProgressBars(); // Re-fetch and update goal progress details
     }
@@ -369,8 +412,11 @@ public class ProgressReportScreen extends JPanel {
         contentPanel.repaint();
     }
 
-
-
+    /**
+     * Create a dropdown menu for selecting the goal and task to navigate to the study session screen for
+     *
+     * @param button
+     */
     private void showStudySessionMenu(JButton button) {
         SwingUtilities.invokeLater(() -> {
             if (button.isShowing()) { // Ensure the button is fully visible
