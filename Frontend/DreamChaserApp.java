@@ -20,6 +20,10 @@ public class DreamChaserApp extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        //set the frame to fullscreen
+        //setUndecorated(true); //TODO: uncomment to remove window frame if we have exit button added
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+
         mainPanel = new JPanel(new CardLayout());
         cardLayout = (CardLayout) mainPanel.getLayout();
 

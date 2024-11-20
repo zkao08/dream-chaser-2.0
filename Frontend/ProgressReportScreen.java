@@ -141,6 +141,8 @@ public class ProgressReportScreen extends JPanel {
         contentPanel.removeAll(); // Clear previous progress bars
         user = app.getCurrentUser();
         List<Goal> goals = user.getGoals();
+        System.out.println("TESTING");
+        System.out.println(goals);
         System.out.println("PROGRESS BAR GOALS:" + goals);
 
         // Use a HashSet to track displayed goal names

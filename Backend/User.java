@@ -17,7 +17,7 @@ public class User {
 
     public User(String currentUser) {
         this.currentUser = currentUser;
-        this.goals =  new ArrayList<>();
+        this.goals = new ArrayList<>();
         this.password = setPassword();
         setGoalsAndTasks();
 
@@ -40,20 +40,38 @@ public class User {
 
     }
 
+    /**
+     * Read the goals and tasks for the user in from the CSV
+     */
     public void setGoalsAndTasks(){
         // Fetch goals and their associated tasks for the current user
         System.out.println("Setting goals and tasks..." );
         List<String> goalNames = CsvEditor.readGoals(this.currentUser);
         System.out.println("CsvEditor.readGoals returned : " + goalNames);
 
-        for (String goalName : goalNames) {
-            Goal goal = new Goal(this.currentUser, goalName); // Create a goal object
-            System.out.println("GOal in User: " + goal.getGoalName());
-            this.goals.add(goal);
+        for (String goalName : goalNames)
+        {
+            //check for duplicate goal
+            boolean goalExists = false;
+            for(Goal goal : this.goals)
+            {
+                if(goal.getGoalName().equals(goalName))
+                {
+                    goalExists = true;
+                    break;
+                }
+            }
+
+            //if duplicate goal, do not add
+            if(!goalExists)
+            {
+                Goal goal = new Goal(this.currentUser, goalName); // Create a goal object
+                System.out.println("Goal in User: " + goal.getGoalName());
+                this.goals.add(goal);
+            }
         }
 
     }
-
 
     // Getter for username
     public String getUsername() {

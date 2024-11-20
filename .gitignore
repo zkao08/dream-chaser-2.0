@@ -61,3 +61,5 @@ currentUser.txt
 goals.csv
 tasks.csv
 users.csv
+UserData/*
+UserData\*
