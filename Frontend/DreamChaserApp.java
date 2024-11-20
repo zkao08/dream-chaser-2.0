@@ -2,35 +2,97 @@ package Frontend;
 
 import java.awt.*;
 import javax.swing.*;
+import Backend.User;
 
 public class DreamChaserApp extends JFrame {
+    private JPanel mainPanel;
+    private CardLayout cardLayout;
+    private StudySessionScreen studySessionScreen;
+    private ProgressReportScreen progressReportScreen;
+    private StatisticsScreen statisticsScreen;
+    private SignUpScreen signUpScreen;
+
+    private User currentUser;
+
     public DreamChaserApp() {
         setTitle("Dream Chaser");
-
-        // Get the screen dimensions
-        // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setSize(1000, 800); // Set size to full screen
-
+        setSize(1920, 1080);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Center the window (not needed for full screen)
+        setLocationRelativeTo(null);
 
-        JPanel mainPanel = new JPanel(new CardLayout());
-        CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
+        mainPanel = new JPanel(new CardLayout());
+        cardLayout = (CardLayout) mainPanel.getLayout();
 
-        // Add each screen to the main panel
-        mainPanel.add(new ProgressReportScreen(cardLayout, mainPanel), "ProgressReport");
-        mainPanel.add(new StudySessionScreen(cardLayout, mainPanel), "Start Study Session");
-        mainPanel.add(new GoalCreationScreen(cardLayout, mainPanel), "GoalCreation");
-        mainPanel.add(new SignInScreen(cardLayout, mainPanel), "SignIn");
+        mainPanel.add(new SignInScreen(cardLayout, mainPanel, this), "SignIn");
+        mainPanel.add(new LoadingScreen(), "Loading");
         mainPanel.add(new SignUpScreen(cardLayout, mainPanel), "SignUp");
-        mainPanel.add(new LoadingScreen(), "Loading"); // Add Loading Screen
-        mainPanel.add(new StatisticsScreen(cardLayout, mainPanel), "Statistics");
 
 
-        // Show the Sign In screen at startup
+
         cardLayout.show(mainPanel, "SignIn");
 
         add(mainPanel, BorderLayout.CENTER);
+    }
+
+    public void initializeScreens() {
+        // Ensure ProgressReportScreen is initialized and added
+        if (progressReportScreen == null) {
+            progressReportScreen = new ProgressReportScreen(cardLayout, mainPanel, this);
+            mainPanel.add(progressReportScreen, "ProgressReport");
+        }
+
+        // Ensure StudySessionScreen is initialized and added
+        if (studySessionScreen == null) {
+            studySessionScreen = new StudySessionScreen(cardLayout, mainPanel, this);
+            mainPanel.add(studySessionScreen, "StudySession");
+        }
+
+        // Add GoalCreationScreen if not already added
+        if (!isScreenAdded("GoalCreation")) {
+            GoalCreationScreen goalCreationScreen = new GoalCreationScreen(cardLayout, mainPanel, this);
+            mainPanel.add(goalCreationScreen, "GoalCreation");
+        }
+
+        // Add StatisticsScreen if not already added
+        if (!isScreenAdded("Statistics")) {
+            statisticsScreen = new StatisticsScreen(cardLayout, mainPanel, this); // Initialize here
+            mainPanel.add(statisticsScreen, "Statistics");
+        }
+    }
+
+    private boolean isScreenAdded(String screenName) {
+        for (Component comp : mainPanel.getComponents()) {
+            if (mainPanel.isAncestorOf(comp) && screenName.equals(mainPanel.getComponentZOrder(comp))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public StudySessionScreen getStudySessionScreen() {
+        return this.studySessionScreen;
+    }
+
+    public StatisticsScreen getStatisticsScreen() {
+        return this.statisticsScreen; // Correctly return the instance variable
+    }
+
+    public void navigateToScreen(String screenName) {
+        System.out.println("Navigating to: " + screenName); // Debug print
+        if ("ProgressReport".equals(screenName)) {
+            if (progressReportScreen != null) {
+                progressReportScreen.refreshContent(); // Refresh content dynamically
+            }
+        }
+        cardLayout.show(mainPanel, screenName); // Navigate to the desired screen
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
     }
 
     public static void main(String[] args) {

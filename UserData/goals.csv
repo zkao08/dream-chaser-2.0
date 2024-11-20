@@ -1,6 +1,3 @@
-username,goalName
-john_doe,Learn Java
-current_user,Learn HTML
-null,Learn Python
-null,Learn Python
-null,Learn Python
+username,goalName,dueDate,startDate
+joy,Learn Html,2025-01-16,2024-11-19
+

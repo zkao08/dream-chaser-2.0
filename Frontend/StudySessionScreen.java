@@ -1,27 +1,11 @@
 package Frontend;
-/**
- * The DreamTrackerclass implements a goal tracking system that allows users
- * to create goals, manage tasks, and track their progress.
- *
- * Author: Anointiyae Beasley
- * Version: 1.1
- * Since: 10/04/2024
- *
- * Usage:
- * This class provides functionality for users to define goals, add tasks to
- * those goals, mark tasks as completed, and check goal progress.
- *
- * Change Log:
- * Version 1.0 (10/04/2024):
- * - Initial creation of the DreamTracker class, along with the Goal and Task classes.
- * Version 1.1 (10/30/2024):
- * - Creating the logic for the page. Ensuring that the user can start a timer,
- * stop the timer, and then that time is added to the users information.
- */
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import Backend.CsvEditor;
+import Backend.MusicPlayer;
+
 import javax.swing.*;
+import java.awt.*;
+import java.util.Map;
 
 public class StudySessionScreen extends JPanel {
     private CardLayout cardLayout;
@@ -32,159 +16,170 @@ public class StudySessionScreen extends JPanel {
     private int timeInSeconds = 0;
     private boolean isRunning = false;
     private Image backgroundImage;
-    private Image logoImage;
+    private DreamChaserApp app;
     private JLabel goalLabel;
+    private String username;
+    private String goalName;
+    private String taskName;
 
-    public StudySessionScreen(CardLayout cardLayout, JPanel mainPanel) {
+    private MusicPlayer musicPlayer;
+
+    public StudySessionScreen(CardLayout cardLayout, JPanel mainPanel, DreamChaserApp app) {
         this.cardLayout = cardLayout;
         this.mainPanel = mainPanel;
+        this.app = app;
+        this.musicPlayer = new MusicPlayer();
 
         // Load the background image
-        backgroundImage = new ImageIcon(getClass().getResource("/Images/bg.jpg")).getImage();
-
-        // Load the logo image
-        logoImage = new ImageIcon(getClass().getResource("/Images/Logo.png")).getImage();
+        backgroundImage = new ImageIcon(getClass().getResource("/resources/Images/AllPageBackground.png")).getImage();
 
         setLayout(new BorderLayout());
-        goalLabel = new JLabel("No goal selected", SwingConstants.CENTER);
-        goalLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        add(goalLabel, BorderLayout.CENTER);
 
-        // Center Panel for Timer and Toggle Button
+        // Title Panel
+        goalLabel = new JLabel("No goal selected", SwingConstants.CENTER);
+        goalLabel.setFont(new Font("Arial", Font.BOLD, 48)); // Extra large font
+        goalLabel.setForeground(Color.decode("#021f37"));
+        add(goalLabel, BorderLayout.NORTH);
+
+        // Center Panel
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-        centerPanel.setOpaque(false); // Transparent panel to show background
+        centerPanel.setOpaque(false);
 
-        // Timer label
+        // Timer Label
         timerLabel = new JLabel("00:00:00", SwingConstants.CENTER);
-        timerLabel.setFont(new Font("Arial", Font.BOLD, 48));
-        timerLabel.setForeground(Color.BLACK);
+        timerLabel.setFont(new Font("Arial", Font.BOLD, 96)); // Extra large font for timer
+        timerLabel.setForeground(Color.decode("#021f37"));
         timerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centerPanel.add(Box.createVerticalGlue());
         centerPanel.add(timerLabel);
-        centerPanel.add(Box.createVerticalStrut(20)); // Spacing
+        centerPanel.add(Box.createVerticalStrut(20));
 
-        // Toggle button with custom styling
-        toggleButton = new JButton("Start Timer");
-        toggleButton.setFont(new Font("Arial", Font.BOLD, 24));
-        toggleButton.setForeground(Color.WHITE);
-        toggleButton.setBackground(new Color(0, 51, 102, 200)); // Dark blue with transparency
-        toggleButton.setFocusPainted(false);
-        toggleButton.setBorderPainted(false);
+        // Toggle Button
+        toggleButton = createStyledButton("Start Timer");
         toggleButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        toggleButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (isRunning) {
-                    stopTimer();
-                } else {
-                    startTimer();
-                }
+        toggleButton.addActionListener(e -> {
+            if (isRunning) {
+                stopTimer();
+            } else {
+                startTimer();
             }
         });
         centerPanel.add(toggleButton);
+        centerPanel.add(Box.createVerticalGlue());
 
         add(centerPanel, BorderLayout.CENTER);
 
-        // End Study Session button in the lower-left corner
-        JButton endSessionButton = new JButton("End Study Session");
-        endSessionButton.setFont(new Font("Arial", Font.BOLD, 18));
-        endSessionButton.setForeground(Color.WHITE);
-        endSessionButton.setBackground(Color.BLUE); // Dark blue with transparency
-        endSessionButton.setFocusPainted(false);
-        endSessionButton.setBorderPainted(false);
-        endSessionButton.setOpaque(false);
-        endSessionButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-        endSessionButton.addActionListener(e -> cardLayout.show(mainPanel, "ProgressReport"));
-        add(endSessionButton, BorderLayout.SOUTH);
+        // Music Panel
+        JPanel musicPanel = new JPanel();
+        musicPanel.setLayout(new BoxLayout(musicPanel, BoxLayout.Y_AXIS));
+        musicPanel.setOpaque(false);
+        musicPanel.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(Color.decode("#021f37"), 3, true),
+                "Music Player",
+                0,
+                0,
+                new Font("Arial", Font.BOLD, 24),
+                Color.decode("#021f37")
+        ));
 
-        // Create a transparent panel for placing the logo in the top-right corner
-        JPanel logoPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                if (logoImage != null) {
-                    g.drawImage(logoImage, getWidth() - logoImage.getWidth(null) - 20, 10, null);
-                }
-            }
-        };
-        logoPanel.setOpaque(false); // Transparent to show the background
-        add(logoPanel, BorderLayout.NORTH);
+        JLabel musicLabel = new JLabel("Choose Music to Play:");
+        musicLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        musicLabel.setForeground(Color.decode("#021f37"));
+        musicLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        musicPanel.add(musicLabel);
 
-        // Spotify-like controls panel on the right side
-        JPanel spotifyPanel = createSpotifyPanel();
-        add(spotifyPanel, BorderLayout.EAST);
+        ButtonGroup musicGroup = new ButtonGroup();
+        Map<String, String> songs = musicPlayer.getSongs();
+
+        for (String songName : songs.keySet()) {
+            JRadioButton songButton = new JRadioButton(songName);
+            songButton.setFont(new Font("Arial", Font.PLAIN, 20));
+            songButton.setForeground(Color.decode("#021f37"));
+            songButton.setOpaque(false);
+            songButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            musicGroup.add(songButton);
+            musicPanel.add(songButton);
+
+            songButton.addActionListener(e -> {
+                musicPlayer.stopMusic();
+                musicPlayer.playMusic(songName);
+            });
+        }
+
+        JButton stopMusicButton = createStyledButton("Stop Music");
+        stopMusicButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        stopMusicButton.addActionListener(e -> musicPlayer.stopMusic());
+        musicPanel.add(Box.createVerticalStrut(10));
+        musicPanel.add(stopMusicButton);
+
+        add(musicPanel, BorderLayout.EAST);
+
+        // End Study Session Button
+        JButton endSessionButton = createStyledButton("End Study Session");
+        endSessionButton.setFont(new Font("Arial", Font.BOLD, 36)); // Larger font
+        endSessionButton.addActionListener(e -> endStudySession());
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setOpaque(false);
+        bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        bottomPanel.add(endSessionButton);
+        add(bottomPanel, BorderLayout.SOUTH);
 
         // Initialize Timer
-        timer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                timeInSeconds++;
-                updateTimerLabel();
-            }
+        timer = new Timer(1000, e -> {
+            timeInSeconds++;
+            updateTimerLabel();
         });
-
-
-    }
-
-    // Method to set the selected goal
-    public void setGoal(String goal) {
-        goalLabel.setText("Current Goal: " + goal);
-    }
-
-    private JPanel createSpotifyPanel() {
-        JPanel spotifyPanel = new JPanel();
-        spotifyPanel.setLayout(new BoxLayout(spotifyPanel, BoxLayout.Y_AXIS));
-        spotifyPanel.setOpaque(false); // Make it transparent
-
-        JLabel spotifyLabel = new JLabel("Spotify");
-        spotifyLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        spotifyLabel.setForeground(Color.WHITE);
-        spotifyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        spotifyPanel.add(spotifyLabel);
-
-        spotifyPanel.add(Box.createVerticalStrut(10)); // Spacing
-
-        // Play/pause button
-        JButton playPauseButton = new JButton("▶");
-        playPauseButton.setFont(new Font("Arial", Font.BOLD, 18));
-        playPauseButton.setForeground(Color.WHITE);
-        playPauseButton.setBackground(new Color(0, 51, 102, 200));
-        playPauseButton.setFocusPainted(false);
-        playPauseButton.setBorderPainted(false);
-        playPauseButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        playPauseButton.addActionListener(e -> {
-            // Toggle play/pause button text
-            playPauseButton.setText(playPauseButton.getText().equals("▶") ? "⏸" : "▶");
-        });
-        spotifyPanel.add(playPauseButton);
-
-        spotifyPanel.add(Box.createVerticalStrut(10)); // Spacing
-
-        // Song progress slider
-        JSlider progressSlider = new JSlider(0, 100, 0);
-        progressSlider.setOpaque(false); // Transparent
-        spotifyPanel.add(progressSlider);
-
-        spotifyPanel.add(Box.createVerticalStrut(10)); // Spacing
-
-        // Volume slider
-        JSlider volumeSlider = new JSlider(0, 100, 50);
-        volumeSlider.setOpaque(false); // Transparent
-        spotifyPanel.add(volumeSlider);
-
-        // Add spacing at the bottom
-        spotifyPanel.add(Box.createVerticalGlue());
-
-        return spotifyPanel;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (backgroundImage != null) {
-            // Draw the background image to cover the entire panel
             g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
         }
+    }
+
+    public void setGoalAndTask(String username, String goalName, String taskName) {
+        this.username = username;
+        this.goalName = goalName;
+        this.taskName = taskName;
+        goalLabel.setText("Current Goal: " + goalName + ", Task: " + taskName);
+    }
+
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                // Button Background
+                g2.setColor(Color.decode("#021f37")); // Navy blue
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 30, 30);
+
+                // Button Text
+                g2.setColor(Color.WHITE);
+                g2.setFont(getFont());
+                FontMetrics fm = g2.getFontMetrics();
+                int textWidth = fm.stringWidth(getText());
+                int textHeight = fm.getAscent();
+                g2.drawString(getText(), (getWidth() - textWidth) / 2, (getHeight() + textHeight) / 2 - 3);
+            }
+
+            @Override
+            protected void paintBorder(Graphics g) {
+                // No border
+            }
+        };
+
+        button.setOpaque(false);
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setPreferredSize(new Dimension(300, 60)); // Larger button size
+        button.setFont(new Font("Arial", Font.BOLD, 24)); // Larger font
+        return button;
     }
 
     private void startTimer() {
@@ -198,6 +193,22 @@ public class StudySessionScreen extends JPanel {
         isRunning = false;
         timer.stop();
         System.out.println("Total Time Recorded: " + timeInSeconds + " seconds");
+    }
+
+    private void endStudySession() {
+        if (timeInSeconds > 0) {
+            int hours = timeInSeconds / 3600;
+            int minutes = (timeInSeconds % 3600) / 60;
+            CsvEditor.logTimeToTask(username, goalName, taskName, hours, minutes);
+            System.out.printf("Logged %d hours and %d minutes to task '%s' under goal '%s'.\n", hours, minutes, taskName, goalName);
+        } else {
+            System.out.println("No time logged during this session.");
+        }
+
+        timeInSeconds = 0;
+        updateTimerLabel();
+        musicPlayer.stopMusic();
+        app.navigateToScreen("ProgressReport");
     }
 
     private void updateTimerLabel() {

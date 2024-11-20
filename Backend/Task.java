@@ -3,12 +3,13 @@ package Backend;
 public class Task {
     private String taskName;
     private int timeToCompleteHours;
+
     private int timeToCompleteMinutes;
     private int loggedTimeHours;
     private int loggedTimeMinutes;
     private boolean isComplete;
 
-    public Task(String taskName, int timeToCompleteHours, int timeToCompleteMinutes) {
+    public Task( String taskName, int timeToCompleteHours, int timeToCompleteMinutes) {
         setTaskName(taskName);
         setTimeToComplete(timeToCompleteHours, timeToCompleteMinutes);
         this.loggedTimeHours = 0;
@@ -43,6 +44,17 @@ public class Task {
     public int getTimeToCompleteMinutes() {
         return timeToCompleteMinutes;
     }
+
+    // Getter for logged time hours
+    public int getLoggedTimeHours() {
+        return loggedTimeHours;
+    }
+
+    // Getter for logged time minutes
+    public int getLoggedTimeMinutes() {
+        return loggedTimeMinutes;
+    }
+
 
     public boolean isComplete() {
         return isComplete;

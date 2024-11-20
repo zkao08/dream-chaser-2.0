@@ -1,50 +1,43 @@
 username,goalName,taskName,timeToCompleteHours,timeToCompleteMinutes,loggedTimeHours,loggedTimeMinutes,isComplete
-john_doe,Learn Java,Read Chapter 1,2,30,2,35,true
-john_doe,Learn Java,Write a program,1,45,1,30,false
-current_user,Learn HTML,Set up text editor,1,30,0,0,false
-current_user,Learn HTML,Learn basic HTML tags,2,0,0,0,false
-current_user,Learn HTML,Practice creating a simple webpage,1,30,0,0,false
-current_user,Learn HTML,Study CSS basics,2,0,0,0,false
-current_user,Learn HTML,Combine CSS with HTML,1,30,0,0,false
-current_user,Learn HTML,Create a styled webpage,2,30,0,0,false
-current_user,Learn HTML,Learn about responsive design,2,0,0,0,false
-current_user,Learn HTML,Practice creating a responsive webpage,2,30,0,0,false
-current_user,Learn HTML,Review and test knowledge,1,30,0,0,false
-current_user,Learn HTML,Html,5,4,0,0,false
-null,Learn Python,SetupPythonEnvironment,1,0,0,0,false
-null,Learn Python,LearnBasicSyntax,3,0,0,0,false
-null,Learn Python,PracticeVariables,2,30,0,0,false
-null,Learn Python,ExploreDataStructures,4,0,0,0,false
-null,Learn Python,UnderstandFunctions,3,30,0,0,false
-null,Learn Python,MasterControlFlow,4,0,0,0,false
-null,Learn Python,DiveIntoModules,3,0,0,0,false
-null,Learn Python,WorkWithFiles,2,30,0,0,false
-null,Learn Python,CreateMiniProject1,4,0,0,0,false
-null,Learn Python,DebuggingTechniques,2,30,0,0,false
-null,Learn Python,OptimizeCode,3,0,0,0,false
-null,Learn Python,CreateMiniProject2,4,0,0,0,false
-null,Learn Python,ReviewAndPractice,3,30,0,0,false
-null,Learn Python,FinalizeProjects,2,0,0,0,false
-null,Learn Python,InstallPython,1,30,0,0,false
-null,Learn Python,SetupDevelopmentEnvironment,1,0,0,0,false
-null,Learn Python,UnderstandBasicSyntax,2,0,0,0,false
-null,Learn Python,LearnDataTypes,2,30,0,0,false
-null,Learn Python,PracticeLoops,2,0,0,0,false
-null,Learn Python,ExploreConditionalStatements,1,30,0,0,false
-null,Learn Python,CreateFunctions,2,0,0,0,false
-null,Learn Python,WorkWithLists,2,30,0,0,false
-null,Learn Python,DictionariesAndSets,1,30,0,0,false
-null,Learn Python,FileIOOperations,2,0,0,0,false
-null,Learn Python,ErrorHandlingTechniques,1,30,0,0,false
-null,Learn Python,AdvancedTopics,3,0,0,0,false
-null,Learn Python,ProjectPractice,3,0,0,0,false
-null,Learn Python,installpython,1,30,0,0,false
-null,Learn Python,explorebasicssyntax,2,0,0,0,false
-null,Learn Python,practicecodingexercises,3,0,0,0,false
-null,Learn Python,studycontrolflow,2,30,0,0,false
-null,Learn Python,workonfunctions,2,0,0,0,false
-null,Learn Python,learndatastructures,3,30,0,0,false
-null,Learn Python,explorefilehandling,1,30,0,0,false
-null,Learn Python,practicemodules,2,0,0,0,false
-null,Learn Python,experimentwitherrorhandling,1,30,0,0,false
-null,Learn Python,createproject,3,0,0,0,false
+joy,Learn Html,Find HTML resources,2,0,2,30,true
+joy,Learn Html,Read HTML basics,3,0,0,0,false
+joy,Learn Html,Practice writing HTML code,6,0,4,0,false
+joy,Learn Html,Learn HTML tags,4,0,5,0,true
+joy,Learn Html,Create a simple HTML webpage,5,0,0,0,false
+joy,Learn Html,Review HTML concepts,2,0,0,0,false
+joy,Learn Html,Take HTML quizzes,2,0,0,0,false
+
+joy,Learn Java,Set up Java development environment,1,30,0,0,false
+joy,Learn Java,Understand basic Java syntax,2,0,0,0,false
+joy,Learn Java,Practice writing simple Java programs,2,30,0,0,false
+joy,Learn Java,Learn about object-oriented programming in Java,3,0,0,0,false
+joy,Learn Java,Study Java data types and variables,2,0,0,0,false
+joy,Learn Java,Explore Java control flow structures,2,30,0,0,false
+joy,Learn Java,Understand Java methods and classes,3,0,0,0,false
+joy,Learn Java,Practice debugging and error handling in Java,2,30,0,0,false
+joy,Learn Java,Study Java collections and generics,2,0,0,0,false
+joy,Learn Java,Learn about Java input and output streams,2,30,0,0,false
+joy,Learn Java,Practice working with files in Java,2,0,0,0,false
+joy,Learn Java,Explore Java libraries and frameworks,3,0,0,0,false
+joy,Learn Ballet,Learn basic ballet positions,2,30,3,30,true
+joy,Learn Ballet,Practice pliés,1,30,0,0,false
+joy,Learn Ballet,Master tendus,1,45,0,0,false
+joy,Learn Ballet,Work on relevés,1,30,0,0,false
+joy,Learn Ballet,Learn dégagés,1,45,0,0,false
+joy,Learn Ballet,Practice rond de jambes,1,45,0,0,false
+joy,Learn Ballet,Master frappés,1,45,0,0,false
+joy,Learn Ballet,Work on battus,1,30,0,0,false
+joy,Learn Ballet,Learn adagio steps,1,45,0,0,false
+joy,Learn Ballet,Practice allegro steps,1,45,0,0,false
+joy,Learn Ballet,Master pirouettes,1,30,0,0,false
+joy,Learn Ballet,Work on small dance combinations,2,0,0,0,false
+joy,Learn how to do ballet,Research basics of ballet,2,30,0,0,false
+joy,Learn how to do ballet,Watch online tutorials,4,0,0,0,false
+joy,Learn how to do ballet,Practice pliés,3,0,0,0,false
+joy,Learn how to do ballet,Practice tendus,2,0,0,0,false
+joy,Learn how to do ballet,Practice relevés,2,0,0,0,false
+joy,Learn how to do ballet,Practice port de bras,2,0,0,0,false
+joy,Learn how to do ballet,Attend flexibility training,2,0,0,0,false
+joy,Learn how to do ballet,Practice balance exercises,2,0,0,0,false
+joy,Learn how to do ballet,Review ballet terminology,3,0,0,0,false
+joy,Learn how to do ballet,Practice choreography,4,30,0,0,false
