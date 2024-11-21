@@ -288,23 +288,47 @@ public class ProgressReportScreen extends JPanel {
      * @param button
      */
     private void showAddTimeMenu(JButton button) {
-        JPopupMenu addTimeMenu = new JPopupMenu();
-        user = app.getCurrentUser();
-        List<Goal> goals = user.getGoals();
+        SwingUtilities.invokeLater(() -> {
+            if (button.isShowing()) { // Ensure the button is fully visible
+                JPopupMenu studySessionMenu = new JPopupMenu();
+                user = app.getCurrentUser();
+                List<Goal> goals = user.getGoals();
 
-        if (!goals.isEmpty()) {
-            for (Goal goal : goals) {
-                JMenuItem goalItem = new JMenuItem(goal.getGoalName());
-                goalItem.addActionListener(e -> showTasksForGoal(goal));
-                addTimeMenu.add(goalItem);
+                if (!goals.isEmpty()) {
+                    for (Goal goal : goals) {
+                        JMenu goalMenu = new JMenu(goal.getGoalName());
+
+                        List<Task> tasks = goal.getTasks();
+                        if (!tasks.isEmpty()) {
+                            for (Task task : tasks) {
+                                //don't show for tasks that are complete
+                                if(!task.isComplete())
+                                {
+                                    JMenuItem taskItem = new JMenuItem(task.getTaskName());
+                                    taskItem.addActionListener(e -> showAddTimePopup(goal, task));
+                                    goalMenu.add(taskItem);
+                                }
+                            }
+                        } else {
+                            JMenuItem noTasksItem = new JMenuItem("No tasks available");
+                            noTasksItem.setEnabled(false);
+                            goalMenu.add(noTasksItem);
+                        }
+
+                        studySessionMenu.add(goalMenu);
+                    }
+                } else {
+                    JMenuItem noGoalsItem = new JMenuItem("No goals available");
+                    noGoalsItem.setEnabled(false);
+                    studySessionMenu.add(noGoalsItem);
+                }
+
+                // Show the popup menu
+                studySessionMenu.show(button, 0, button.getHeight());
+            } else {
+                System.err.println("Button is not fully visible on screen.");
             }
-        } else {
-            JMenuItem noGoalsItem = new JMenuItem("No goals available");
-            noGoalsItem.setEnabled(false);
-            addTimeMenu.add(noGoalsItem);
-        }
-
-        addTimeMenu.show(button, 0, button.getHeight());
+        });
     }
 
     /**
