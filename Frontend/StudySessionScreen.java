@@ -32,7 +32,7 @@ public class StudySessionScreen extends JPanel {
         this.musicPlayer = new MusicPlayer();
 
         // Load the background image
-        backgroundImage = new ImageIcon(getClass().getResource("/resources/Images/AllPageBackground.png")).getImage();
+        backgroundImage = new ImageIcon(getClass().getResource("/Images/AllPageBackground.png")).getImage();
 
         setLayout(new BorderLayout());
 
@@ -118,7 +118,7 @@ public class StudySessionScreen extends JPanel {
 
         // End Study Session Button
         JButton endSessionButton = createStyledButton("End Study Session");
-        endSessionButton.setFont(new Font("Arial", Font.BOLD, 36)); // Larger font
+        endSessionButton.setFont(new Font("Arial", Font.BOLD, 32)); // Larger font
         endSessionButton.addActionListener(e -> endStudySession());
         JPanel bottomPanel = new JPanel();
         bottomPanel.setOpaque(false);

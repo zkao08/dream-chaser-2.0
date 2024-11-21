@@ -20,7 +20,7 @@ public class SignUpScreen extends JPanel {
         this.mainPanel = mainPanel;
 
         // Load background image
-        backgroundImage = new ImageIcon(getClass().getResource("/resources/Images/AllPageBackground.png")).getImage();
+        backgroundImage = new ImageIcon(getClass().getResource("/Images/AllPageBackground.png")).getImage();
 
         setLayout(new GridBagLayout());
         setOpaque(false); // Make panel transparent to show background

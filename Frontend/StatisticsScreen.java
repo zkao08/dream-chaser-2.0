@@ -32,7 +32,7 @@ public class StatisticsScreen extends JPanel {
         this.mainPanel = mainPanel;
         this.app = app;
         this.statsService = new StatisticsService();
-        this.backgroundImage = new ImageIcon(getClass().getResource("/resources/Images/AllPageBackground.png")).getImage();
+        this.backgroundImage = new ImageIcon(getClass().getResource("/Images/AllPageBackground.png")).getImage();
 
         setLayout(new BorderLayout());
 

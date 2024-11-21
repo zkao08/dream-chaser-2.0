@@ -8,12 +8,12 @@ public class LoadingScreen extends JPanel {
 
     public LoadingScreen() {
         // Load the background image
-        backgroundImage = new ImageIcon(getClass().getResource("/resources/Images/Background.png")).getImage();
+        backgroundImage = new ImageIcon(getClass().getResource("/Images/Background.png")).getImage();
 
         setLayout(new BorderLayout());
 
         // Load the image as an icon
-        ImageIcon loadingIcon = new ImageIcon(getClass().getResource("/resources/Images/LogoTransparent.png"));
+        ImageIcon loadingIcon = new ImageIcon(getClass().getResource("/Images/LogoTransparent.png"));
         JLabel imageLabel = new JLabel(loadingIcon);
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 

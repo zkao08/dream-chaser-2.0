@@ -45,7 +45,7 @@ public class ProgressReportScreen extends JPanel {
         this.setOpaque(true);
 
         //load background image from file
-        backgroundImage = new ImageIcon(getClass().getResource("/resources/Images/AllPageBackground.png")).getImage();
+        backgroundImage = new ImageIcon(getClass().getResource("/Images/AllPageBackground.png")).getImage();
         setLayout(new BorderLayout());
 
         //create the header label

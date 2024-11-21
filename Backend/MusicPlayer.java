@@ -20,6 +20,8 @@ package Backend;
 import javazoom.jl.player.Player;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -33,11 +35,11 @@ public class MusicPlayer {
      */
     public MusicPlayer() {
         songs = new LinkedHashMap<>();
-        // Add songs to the library (name, file path)
-        songs.put("Study Vibes", "resources/Music/747599__viramiller__gentle-tracks-for-relaxing-and-enjoying-natures-beauty.mp3");
-        songs.put("Focus Beats", "resources/Music/763418__lolamoore__calm-piano-melodies-for-relaxing-times.mp3");
-        songs.put("Calm Ambient", "resources/Music/767570__lolamoore__lo-fi-chill-for-reflective-moments.mp3");
-        songs.put("Relaxing Piano", "resources/Music/768519__lolamoore__soothing-piano-moments.mp3");
+        // Add songs to the library (name, resource path)
+        songs.put("Study Vibes", "/Music/747599__viramiller__gentle-tracks-for-relaxing-and-enjoying-natures-beauty.mp3");
+        songs.put("Focus Beats", "/Music/763418__lolamoore__calm-piano-melodies-for-relaxing-times.mp3");
+        songs.put("Calm Ambient", "/Music/767570__lolamoore__lo-fi-chill-for-reflective-moments.mp3");
+        songs.put("Relaxing Piano", "/Music/768519__lolamoore__soothing-piano-moments.mp3");
     }
 
     /**
@@ -50,12 +52,16 @@ public class MusicPlayer {
             return;
         }
 
-        String filePath = songs.get(songName);
+        String resourcePath = songs.get(songName); // Retrieve the resource path
         stopMusic(); // Stop any currently playing music
 
         musicThread = new Thread(() -> {
-            try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
-                player = new Player(fileInputStream);
+            try (InputStream inputStream = getClass().getResourceAsStream(resourcePath)) {
+                if (inputStream == null) {
+                    throw new FileNotFoundException("Resource not found: " + resourcePath);
+                }
+
+                player = new Player(inputStream); // Pass InputStream to the Player
                 player.play(); // Blocks until the song finishes
             } catch (Exception e) {
                 e.printStackTrace();
