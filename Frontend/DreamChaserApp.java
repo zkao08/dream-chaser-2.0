@@ -11,6 +11,7 @@ public class DreamChaserApp extends JFrame {
     private ProgressReportScreen progressReportScreen;
     private StatisticsScreen statisticsScreen;
     private SignUpScreen signUpScreen;
+    private GoalCreationScreen goalCreationScreen;
 
     private User currentUser;
 
@@ -30,8 +31,6 @@ public class DreamChaserApp extends JFrame {
         mainPanel.add(new SignInScreen(cardLayout, mainPanel, this), "SignIn");
         mainPanel.add(new LoadingScreen(), "Loading");
         mainPanel.add(new SignUpScreen(cardLayout, mainPanel), "SignUp");
-
-
 
         cardLayout.show(mainPanel, "SignIn");
 
@@ -53,7 +52,7 @@ public class DreamChaserApp extends JFrame {
 
         // Add GoalCreationScreen if not already added
         if (!isScreenAdded("GoalCreation")) {
-            GoalCreationScreen goalCreationScreen = new GoalCreationScreen(cardLayout, mainPanel, this);
+            goalCreationScreen = new GoalCreationScreen(cardLayout, mainPanel, this);
             mainPanel.add(goalCreationScreen, "GoalCreation");
         }
 
@@ -86,6 +85,15 @@ public class DreamChaserApp extends JFrame {
         if ("ProgressReport".equals(screenName)) {
             if (progressReportScreen != null) {
                 progressReportScreen.refreshContent(); // Refresh content dynamically
+            }
+        }
+        if("GoalCreation".equals(screenName))
+        {
+            if(goalCreationScreen != null)
+            {
+                mainPanel.remove(goalCreationScreen);
+                goalCreationScreen = new GoalCreationScreen(cardLayout, mainPanel, this);
+                mainPanel.add(goalCreationScreen, "GoalCreation");
             }
         }
         cardLayout.show(mainPanel, screenName); // Navigate to the desired screen

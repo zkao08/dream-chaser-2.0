@@ -237,7 +237,7 @@ public class ProgressReportScreen extends JPanel {
 
                 //set size and value of progress bar
                 progressBar.setValue(progressValue);
-                progressBar.setPreferredSize(new Dimension(600, 40));
+                progressBar.setPreferredSize(new Dimension(600, 25));
                 progressBar.setBorder(BorderFactory.createEmptyBorder());
                 gridBagConstraints.gridy = row++;
 

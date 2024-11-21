@@ -6,6 +6,7 @@ import Backend.MusicPlayer;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
+import Backend.User;
 
 public class StudySessionScreen extends JPanel {
     private CardLayout cardLayout;
@@ -200,6 +201,8 @@ public class StudySessionScreen extends JPanel {
             int hours = timeInSeconds / 3600;
             int minutes = (timeInSeconds % 3600) / 60;
             CsvEditor.logTimeToTask(username, goalName, taskName, hours, minutes);
+            User user = app.getCurrentUser();
+            user.setGoalsAndTasks();
             System.out.printf("Logged %d hours and %d minutes to task '%s' under goal '%s'.\n", hours, minutes, taskName, goalName);
         } else {
             System.out.println("No time logged during this session.");
