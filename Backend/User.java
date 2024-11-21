@@ -12,9 +12,6 @@ public class User {
     private String password;
     private List<Goal> goals;
 
-
-
-
     public User(String currentUser) {
         this.currentUser = currentUser;
         this.goals = new ArrayList<>();
@@ -58,6 +55,8 @@ public class User {
                 if(goal.getGoalName().equals(goalName))
                 {
                     goalExists = true;
+                    //if goal already exists, update it
+                    goal.updateGoalTasks();
                     break;
                 }
             }

@@ -155,6 +155,7 @@ public class ProgressReportScreen extends JPanel {
     public void updateProgressBars() {
         contentPanel.removeAll(); // Clear previous progress bars
         user = app.getCurrentUser();
+        user.setGoalsAndTasks();
         List<Goal> goals = user.getGoals();
         System.out.println("PROGRESS BAR GOALS:" + goals);
 
@@ -317,9 +318,13 @@ public class ProgressReportScreen extends JPanel {
 
         if (!tasks.isEmpty()) {
             for (Task task : tasks) {
-                JMenuItem taskItem = new JMenuItem(task.getTaskName());
-                taskItem.addActionListener(e -> showAddTimePopup(goal, task));
-                taskMenu.add(taskItem);
+                //don't show menu if task is complete
+                if(!task.isComplete())
+                {
+                    JMenuItem taskItem = new JMenuItem(task.getTaskName());
+                    taskItem.addActionListener(e -> showAddTimePopup(goal, task));
+                    taskMenu.add(taskItem);
+                }
             }
         } else {
             JMenuItem noTasksItem = new JMenuItem("No tasks available");
@@ -432,15 +437,19 @@ public class ProgressReportScreen extends JPanel {
                         List<Task> tasks = goal.getTasks();
                         if (!tasks.isEmpty()) {
                             for (Task task : tasks) {
-                                JMenuItem taskItem = new JMenuItem(task.getTaskName());
-                                taskItem.addActionListener(e -> {
-                                    studySessionScreen = app.getStudySessionScreen();
-                                    // Send goal and task info to the StudySessionScreen
-                                    studySessionScreen.setGoalAndTask(
-                                            user.getUsername(), goal.getGoalName(), task.getTaskName());
-                                    app.navigateToScreen("StudySession");
-                                });
-                                goalMenu.add(taskItem);
+                                //don't show for tasks that are complete
+                                if(!task.isComplete())
+                                {
+                                    JMenuItem taskItem = new JMenuItem(task.getTaskName());
+                                    taskItem.addActionListener(e -> {
+                                        studySessionScreen = app.getStudySessionScreen();
+                                        // Send goal and task info to the StudySessionScreen
+                                        studySessionScreen.setGoalAndTask(
+                                                user.getUsername(), goal.getGoalName(), task.getTaskName());
+                                        app.navigateToScreen("StudySession");
+                                    });
+                                    goalMenu.add(taskItem);
+                                }
                             }
                         } else {
                             JMenuItem noTasksItem = new JMenuItem("No tasks available");

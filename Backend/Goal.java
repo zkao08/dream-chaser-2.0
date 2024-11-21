@@ -51,10 +51,14 @@ public class Goal {
         return goalTasks;
     }
 
+    public void updateGoalTasks()
+    {
+        this.tasks = setTasks();
+    }
+
     public List<Task> getTasks() {
         return tasks;
     }
-
 
     // Converts Goal to CSV rows (tasks are serialized separately)
     public String toCsvRow(String username) {
