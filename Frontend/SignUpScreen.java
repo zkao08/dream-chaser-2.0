@@ -6,6 +6,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * <h1>SignUpScreen Class</h1>
+ * The SignUpScreen class creates the graphical user interface (GUI) for the sign-up page of the application.
+ * It allows users to enter their username, password, and confirm the password while displaying necessary validation messages.
+ *
+ * <p>Usage:
+ * This class provides the user interface to facilitate user registration. It includes fields for entering a username and password,
+ * a confirmation for password input, and validation checks for username availability and password strength.</p>
+ *
+ * @author Venus Ubani
+ * @version 2.0
+ * @since 11/20/2024
+ * @package Frontend
+ */
+
 public class SignUpScreen extends JPanel {
     private CardLayout cardLayout;
     private JPanel mainPanel;
@@ -15,6 +30,13 @@ public class SignUpScreen extends JPanel {
     private JCheckBox showPasswordCheckBox;
     private Image backgroundImage; // Background image
 
+    /**
+     * This method initializes the SignUpScreen, setting up the layout, and adding components such as labels,
+     * input fields, checkboxes, and buttons for user registration.
+     *
+     * @param cardLayout This is the CardLayout to switch between different screens.
+     * @param mainPanel This is the main panel that contains the various screens of the application.
+     */
     public SignUpScreen(CardLayout cardLayout, JPanel mainPanel) {
         this.cardLayout = cardLayout;
         this.mainPanel = mainPanel;
@@ -110,6 +132,12 @@ public class SignUpScreen extends JPanel {
         add(backButton, gbc);
     }
 
+    /**
+     * This method is used to paint the background image for the SignUpScreen panel.
+     * It ensures the background image is correctly stretched to fit the panel's dimensions.
+     *
+     * @param g The graphics object used for painting.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -118,6 +146,12 @@ public class SignUpScreen extends JPanel {
         }
     }
 
+    /**
+     * This method is used to create a styled text field with a navy blue border, larger font size,
+     * and transparent background for username input.
+     *
+     * @return JTextField The styled text field for user input.
+     */
     private JTextField createStyledTextField() {
         JTextField textField = new JTextField();
         textField.setFont(new Font("Arial", Font.PLAIN, 24)); // Larger font for input
@@ -128,6 +162,12 @@ public class SignUpScreen extends JPanel {
         return textField;
     }
 
+    /**
+     * This method is used to create a styled password field with a navy blue border, larger font size,
+     * and transparent background for password input.
+     *
+     * @return JPasswordField The styled password field for user input.
+     */
     private JPasswordField createStyledPasswordField() {
         JPasswordField passwordField = new JPasswordField();
         passwordField.setFont(new Font("Arial", Font.PLAIN, 24)); // Larger font for input
@@ -138,6 +178,13 @@ public class SignUpScreen extends JPanel {
         return passwordField;
     }
 
+    /**
+     * This method is used to create a styled button with rounded edges and custom background and text colors.
+     * The button's background is navy blue, and the text is white.
+     *
+     * @param text This is the text that will be displayed on the button.
+     * @return JButton The styled button.
+     */
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text) {
             @Override
@@ -173,6 +220,11 @@ public class SignUpScreen extends JPanel {
         return button;
     }
 
+    /**
+     * This method toggles the visibility of the password in the password fields.
+     * If the checkbox is selected, the password is displayed as plain text;
+     * otherwise, it is masked.
+     */
     private void togglePasswordVisibility() {
         if (showPasswordCheckBox.isSelected()) {
             passwordField.setEchoChar((char) 0);
@@ -183,6 +235,10 @@ public class SignUpScreen extends JPanel {
         }
     }
 
+    /**
+     * This method handles the sign-up process by validating the input fields,
+     * ensuring the password meets certain criteria, and adding the user to the system.
+     */
     private void handleSignUp() {
         String username = usernameField.getText().trim();
         String password = new String(passwordField.getPassword()).trim();
@@ -220,6 +276,15 @@ public class SignUpScreen extends JPanel {
         cardLayout.show(mainPanel, "SignIn");
     }
 
+    /**
+     * This method validates the password based on specific criteria:
+     * 1. Length must be between 8 and 20 characters.
+     * 2. Must contain at least one uppercase letter, one lowercase letter,
+     *    one digit, and one special character.
+     *
+     * @param password The password string to be validated.
+     * @return boolean Returns true if the password meets the criteria, otherwise false.
+     */
     private boolean isValidPassword(String password) {
         if (password.length() < 8 || password.length() > 20) {
             return false;

@@ -15,9 +15,9 @@ import Backend.CsvEditor;
  * goal details such as the due date. It also provides functionality to convert the goal
  * into CSV format and manage the list of tasks.</p>
  *
- * @author Max Henson
+ * @author Luke Barnett
  * @version 2.0
- * @since 2024-11-20
+ * @since 11/20/2024
  * @package Backend
  */
 public class Goal {

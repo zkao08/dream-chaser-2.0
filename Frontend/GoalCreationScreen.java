@@ -15,6 +15,23 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+/**
+ * <h1>GoalCreationScreen Class</h1>
+ *
+ * The GoalCreationScreen class provides the graphical user interface (GUI) for users to create goals,
+ * add tasks manually, and generate tasks automatically using AI assistance. Users can specify the
+ * goal name and due date, then populate a list of tasks to track their progress effectively.
+ *
+ * <p>Usage:
+ * This screen allows users to manage their goals and tasks effectively. After creating and populating a goal,
+ * users can save their data to integrate with the backend logic.</p>
+ *
+ * @author Anointiyae Beasley
+ * @version 2.0
+ * @since 11/20/2024
+ * @package Frontend
+ */
+
 public class GoalCreationScreen extends JPanel {
     private CardLayout cardLayout;
     private JPanel mainPanel;
@@ -26,7 +43,14 @@ public class GoalCreationScreen extends JPanel {
     private DefaultTableModel tableModel;
     private Image backgroundImage; // To hold the background image
 
-
+    /**
+     * Constructs a GoalCreationScreen instance to allow users to create and manage goals.
+     * Initializes the GUI layout, including input fields, task table, and action buttons.
+     *
+     * @param cardLayout The CardLayout to manage screen transitions.
+     * @param mainPanel The main JPanel containing all application screens.
+     * @param app The main DreamChaserApp instance for accessing user data and navigation.
+     */
     public GoalCreationScreen(CardLayout cardLayout, JPanel mainPanel, DreamChaserApp app) {
         this.cardLayout = cardLayout;
         this.mainPanel = mainPanel;
@@ -68,7 +92,7 @@ public class GoalCreationScreen extends JPanel {
             }
         };
 
-// Set table properties
+        // Set table properties
         tasksTable.setOpaque(true);
         tasksTable.setBackground(new Color(245, 245, 245)); // Light gray background
         tasksTable.setFont(new Font("Arial", Font.PLAIN, 20)); // Cell font
@@ -76,11 +100,11 @@ public class GoalCreationScreen extends JPanel {
         tasksTable.setShowGrid(true);
         tasksTable.setGridColor(Color.decode("#021f37")); // Navy blue grid lines
 
-// Remove table and intercell spacing borders
+        // Remove table and intercell spacing borders
         tasksTable.setBorder(BorderFactory.createEmptyBorder()); // No border for the table
         tasksTable.setIntercellSpacing(new Dimension(0, 0)); // Remove space between cells
 
-// Custom header renderer for column names
+        // Custom header renderer for column names
         JTableHeader tableHeader = tasksTable.getTableHeader();
         tableHeader.setOpaque(true);
         tableHeader.setBackground(Color.decode("#021f37")); // Dark blue background
@@ -88,13 +112,13 @@ public class GoalCreationScreen extends JPanel {
         tableHeader.setFont(new Font("Arial", Font.BOLD, 16)); // Bold Arial font
         ((DefaultTableCellRenderer) tableHeader.getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 
-// Transparent scroll pane with no borders
+        // Transparent scroll pane with no borders
         JScrollPane scrollPane = new JScrollPane(tasksTable);
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
         scrollPane.setBorder(BorderFactory.createEmptyBorder()); // No border for the scroll pane
 
-// Add the scroll pane to the layout
+        // Add the scroll pane to the layout
         add(scrollPane, BorderLayout.CENTER);
 
 
@@ -124,6 +148,11 @@ public class GoalCreationScreen extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Paints the background image for the panel.
+     *
+     * @param g The Graphics object for rendering the background.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -133,6 +162,12 @@ public class GoalCreationScreen extends JPanel {
         }
     }
 
+    /**
+     * Creates a JLabel with custom styling for transparency and text color.
+     *
+     * @param text The text to be displayed on the label.
+     * @return JLabel The styled JLabel instance.
+     */
     private JLabel createTransparentLabel(String text) {
         JLabel label = new JLabel(text);
         label.setForeground(Color.decode("#021f37")); // Text color
@@ -140,6 +175,11 @@ public class GoalCreationScreen extends JPanel {
         return label;
     }
 
+    /**
+     * Creates a JTextField with custom styling for transparency and text formatting.
+     *
+     * @return JTextField The styled JTextField instance.
+     */
     private JTextField createTextField() {
         JTextField textField = new JTextField();
         textField.setOpaque(true); // Make it non-transparent
@@ -150,6 +190,12 @@ public class GoalCreationScreen extends JPanel {
         return textField;
     }
 
+    /**
+     * Creates a JButton with custom styling, including rounded corners and text color.
+     *
+     * @param text The text to be displayed on the button.
+     * @return JButton The styled JButton instance.
+     */
     private JButton createTransparentButton(String text) {
         JButton button = new JButton(text) {
             @Override
@@ -183,6 +229,10 @@ public class GoalCreationScreen extends JPanel {
         return button;
     }
 
+    /**
+     * Adds a task to the goal's task list by prompting the user for task details.
+     * Validates the input and updates the task table.
+     */
     private void addTask() {
         String taskName = JOptionPane.showInputDialog(this, "Enter Task Name:");
         if (taskName == null || taskName.trim().isEmpty()) {
@@ -206,6 +256,10 @@ public class GoalCreationScreen extends JPanel {
         }
     }
 
+    /**
+     * Generates tasks for the goal using AI assistance.
+     * Fetches tasks based on the goal name and due date and updates the task table.
+     */
     private void generateTasks() {
         String goalName = goalNameField.getText().trim();
         String dueDateString = dueDateField.getText().trim();
@@ -238,6 +292,10 @@ public class GoalCreationScreen extends JPanel {
         }
     }
 
+    /**
+     * Completes the goal creation process by saving the goal and its tasks.
+     * Validates user input, constructs the goal object, and persists the data.
+     */
     private void completeGoal() {
         String goalName = goalNameField.getText().trim();
         String dueDateString = dueDateField.getText().trim();

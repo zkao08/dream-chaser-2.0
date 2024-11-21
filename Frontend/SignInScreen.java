@@ -11,9 +11,21 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-
-
-
+/**
+ * <h1>SignInScreen Class</h1>
+ * The SignInScreen class creates the graphical user interface (GUI) for the sign-in page of the application.
+ * It allows users to enter their username and password while providing feedback for successful or failed login attempts.
+ * The class includes a background image, customized text fields, and buttons for the sign-in process, along with a toggle to show the password.
+ *
+ * <p>Usage:
+ * This class provides the user interface for logging into the application. It includes fields for entering a username and password,
+ * a checkbox for showing the password, and buttons for signing in or transitioning to the sign-up screen.</p>
+ *
+ * @author Venus Ubani
+ * @version 2.0
+ * @since 11/20/2024
+ * @package Frontend
+ */
 
 public class SignInScreen extends JPanel {
     private CardLayout cardLayout;
@@ -27,6 +39,13 @@ public class SignInScreen extends JPanel {
     private JCheckBox showPasswordCheckBox;
     private Image backgroundImage; // Background image
 
+    /**
+     * Constructor for the SignInScreen class. Initializes the sign-in screen layout and components.
+     *
+     * @param cardLayout The CardLayout used for screen transitions.
+     * @param mainPanel The main JPanel holding all screens.
+     * @param app The DreamChaserApp instance for managing user sessions.
+     */
     public SignInScreen(CardLayout cardLayout, JPanel mainPanel, DreamChaserApp app) {
         this.cardLayout = cardLayout;
         this.mainPanel = mainPanel;
@@ -109,7 +128,11 @@ public class SignInScreen extends JPanel {
         add(signUpButton, gbc);
     }
 
-
+    /**
+     * Paints the background image of the SignInScreen.
+     *
+     * @param g The Graphics object used to paint the screen.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -118,6 +141,11 @@ public class SignInScreen extends JPanel {
         }
     }
 
+    /**
+     * Creates a styled JTextField for username input.
+     *
+     * @return JTextField The styled username input field.
+     */
     private JTextField createStyledTextField() {
         JTextField textField = new JTextField();
         textField.setFont(new Font("Arial", Font.PLAIN, 24)); // Larger font for input
@@ -128,6 +156,11 @@ public class SignInScreen extends JPanel {
         return textField;
     }
 
+    /**
+     * Creates a styled JPasswordField for password input.
+     *
+     * @return JPasswordField The styled password input field.
+     */
     private JPasswordField createStyledPasswordField() {
         JPasswordField passwordField = new JPasswordField();
         passwordField.setFont(new Font("Arial", Font.PLAIN, 24)); // Larger font for input
@@ -138,6 +171,12 @@ public class SignInScreen extends JPanel {
         return passwordField;
     }
 
+    /**
+     * Creates a styled JButton for the sign-in and other buttons on the screen.
+     *
+     * @param text The text to display on the button.
+     * @return JButton The styled button.
+     */
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text) {
             @Override
@@ -173,7 +212,9 @@ public class SignInScreen extends JPanel {
         return button;
     }
 
-
+    /**
+     * Toggles the visibility of the password field when the checkbox is selected or deselected.
+     */
     private void togglePasswordVisibility() {
         if (showPasswordCheckBox.isSelected()) {
             passwordField.setEchoChar((char) 0);
@@ -181,6 +222,14 @@ public class SignInScreen extends JPanel {
             passwordField.setEchoChar('*');
         }
     }
+
+    /**
+     * Matches the entered username and password with the records in the users CSV file.
+     *
+     * @param inputUsername The username entered by the user.
+     * @param inputPassword The password entered by the user.
+     * @return boolean Returns true if the username and password match any record in the CSV file, otherwise false.
+     */
     public static boolean matchUsernameAndPassword(String inputUsername, String inputPassword) {
         CsvEditor.ensureDirectoryExists(USERS_FILE);
 
@@ -205,6 +254,10 @@ public class SignInScreen extends JPanel {
         return false; // No match found
     }
 
+    /**
+     * Handles the sign-in process, including validation of the entered credentials.
+     * If the credentials are correct, the user is logged in, and the appropriate screen is shown.
+     */
     private void handleSignIn() {
         String username = usernameField.getText().trim();
         String password = new String(passwordField.getPassword()).trim();
@@ -231,7 +284,10 @@ public class SignInScreen extends JPanel {
         }
     }
 
-
+    /**
+     * Handles the transition to the next screen after a successful login.
+     * Displays the LoadingScreen first and then transitions to the ProgressReport screen.
+     */
     private void handleScreenTransition() {
         // Show the LoadingScreen immediately
         cardLayout.show(mainPanel, "Loading");

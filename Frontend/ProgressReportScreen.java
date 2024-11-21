@@ -1,13 +1,3 @@
-/**
- * Package Report Screen class
- *
- * Main home screen of the app, shows progress bars and has buttons for the main features
- * of the application
- *
- * @version 2.0
- * @since 11/20/2024
- */
-
 package Frontend;
 
 import java.awt.*;
@@ -21,6 +11,22 @@ import Backend.User;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+/**
+ * <h1>ProgressReportScreen Class</h1>
+ * The ProgressReportScreen class is responsible for managing and displaying the progress report interface of the application.
+ * It presents the user's goals, tasks, and the corresponding progress bars, alongside various action buttons for additional features.
+ * The screen includes functionalities for viewing statistics, adding time to tasks, starting a study session, and creating new goals.
+ *
+ * <p>Usage:
+ * This class is used within the application's main user interface to display progress on the user's goals and tasks.
+ * It provides options for tracking progress, viewing statistics, adding time, and starting new study sessions.</p>
+ *
+ * @author Anointiyae Beasley
+ * @version 2.0
+ * @since 11/20/2024
+ * @package Frontend
+ */
 
 public class ProgressReportScreen extends JPanel {
 
@@ -37,6 +43,14 @@ public class ProgressReportScreen extends JPanel {
 
     StatisticsService statsService = new StatisticsService();
 
+    /**
+     * Constructor for ProgressReportScreen.
+     * Sets up the main layout, background, buttons, and initial content for the screen.
+     *
+     * @param cardLayout The CardLayout manager for navigating screens.
+     * @param mainPanel  The main JPanel container for the application.
+     * @param app        The instance of the DreamChaserApp controlling the application flow.
+     */
     public ProgressReportScreen(CardLayout cardLayout, JPanel mainPanel, DreamChaserApp app) {
         //create the screen layout
         this.cardLayout = cardLayout;
@@ -102,6 +116,11 @@ public class ProgressReportScreen extends JPanel {
         add(buttonPanelWrapper, BorderLayout.SOUTH);
     }
 
+    /**
+     * Custom paint method to draw the background image for the panel.
+     *
+     * @param g The Graphics object used to draw the component.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -112,7 +131,10 @@ public class ProgressReportScreen extends JPanel {
     }
 
     /**
-     * Creates a custom-styled button with rounded corners and specified colors.
+     * Creates a styled JButton with rounded corners and a specific color scheme.
+     *
+     * @param text The text displayed on the button.
+     * @return JButton The styled button.
      */
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text) {
@@ -251,9 +273,9 @@ public class ProgressReportScreen extends JPanel {
     }
 
     /**
-     * Create a dropdown to navigate to the stats screen for a specific goal
+     * Displays a dropdown menu for selecting a goal to view statistics.
      *
-     * @param button
+     * @param button The button triggering the statistics menu.
      */
     private void showStatisticsMenu(JButton button) {
         JPopupMenu statisticsMenu = new JPopupMenu();
@@ -283,9 +305,9 @@ public class ProgressReportScreen extends JPanel {
     }
 
     /**
-     * Create a dropdown menu to select the goal to add time to
+     * Displays a dropdown menu for selecting a goal to add time to.
      *
-     * @param button
+     * @param button The button triggering the add-time menu.
      */
     private void showAddTimeMenu(JButton button) {
         SwingUtilities.invokeLater(() -> {
@@ -332,9 +354,9 @@ public class ProgressReportScreen extends JPanel {
     }
 
     /**
-     * Create a context menu for adding time to the specific tasks for a goal
+     * Displays a context menu for selecting tasks of a specific goal.
      *
-     * @param goal
+     * @param goal The Goal object for which tasks are being displayed.
      */
     private void showTasksForGoal(Goal goal) {
         JPopupMenu taskMenu = new JPopupMenu();
@@ -360,10 +382,10 @@ public class ProgressReportScreen extends JPanel {
     }
 
     /**
-     * Create a popup dialog for adding time to a task
+     * Displays a popup dialog for adding time to a specific task within a goal.
      *
-     * @param goal
-     * @param task
+     * @param goal The Goal object to which the task belongs.
+     * @param task The Task object to which time will be added.
      */
     private void showAddTimePopup(Goal goal, Task task) {
         JDialog addTimeDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Add Time", true);
@@ -432,9 +454,16 @@ public class ProgressReportScreen extends JPanel {
         addTimeDialog.setVisible(true);
     }
 
+    /**
+     * Refreshes the content of the screen by re-fetching and updating goal progress details.
+     */
     public void refreshContent() {
         updateProgressBars(); // Re-fetch and update goal progress details
     }
+
+    /**
+     * Refreshes the styles dynamically, updating components like background and fonts.
+     */
     public void refreshStyles() {
         // Update the styles dynamically (e.g., background, fonts, etc.)
         contentPanel.revalidate();
@@ -442,9 +471,9 @@ public class ProgressReportScreen extends JPanel {
     }
 
     /**
-     * Create a dropdown menu for selecting the goal and task to navigate to the study session screen for
+     * Displays a dropdown menu for navigating to the study session screen for a specific task.
      *
-     * @param button
+     * @param button The button triggering the study session menu.
      */
     private void showStudySessionMenu(JButton button) {
         SwingUtilities.invokeLater(() -> {
@@ -497,6 +526,12 @@ public class ProgressReportScreen extends JPanel {
         });
     }
 
+    /**
+     * Main method for testing and demonstrating the ProgressReportScreen class.
+     * Creates a test frame to display the screen.
+     *
+     * @param args Command-line arguments (not used).
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             // Create a JFrame to display the screen
