@@ -11,6 +11,7 @@ import java.util.Properties;
 import java.time.LocalDate;
 
 /**
+ * <h1>AIAssistant Class</h1>
  * The AIAssistant class integrates with a generative AI API to provide users
  * with assistance in creating and managing goals.
  *
@@ -36,6 +37,7 @@ import java.time.LocalDate;
  * - Update to accept different parameters for goals
  * - Returns a list of tasks instead of modifying a goal
  */
+
 public class AIAssistant
 {
 

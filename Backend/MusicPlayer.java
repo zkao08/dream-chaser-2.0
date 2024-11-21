@@ -1,5 +1,22 @@
 package Backend;
 
+/**
+ * <h1>MusicPlayer Class</h1>
+ * The MusicPlayer class provides functionality to play music tracks from a predefined library.
+ * It supports starting and stopping music playback, and listing available songs.
+ * The music is played in a separate thread to avoid blocking the main thread.
+ *
+ * @author Max Henson
+ * @version 1.0
+ * @since 11/20/2024
+ * @package Backend
+ *
+ * <p>Usage:
+ * This class allows users to select a song by name, play it, and stop playback when necessary.
+ * It manages a library of songs and ensures smooth music playback in a background thread.</p>
+ *
+ */
+
 import javazoom.jl.player.Player;
 
 import java.io.FileInputStream;
@@ -11,6 +28,9 @@ public class MusicPlayer {
     private Thread musicThread;
     private final Map<String, String> songs;
 
+    /**
+     * Constructor for the MusicPlayer class. Initializes the song library with song names and file paths.
+     */
     public MusicPlayer() {
         songs = new LinkedHashMap<>();
         // Add songs to the library (name, file path)
@@ -20,7 +40,10 @@ public class MusicPlayer {
         songs.put("Relaxing Piano", "resources/Music/768519__lolamoore__soothing-piano-moments.mp3");
     }
 
-    // Play the selected music file by its name
+    /**
+     * This method plays the selected music file by its name.
+     * @param songName This is the name of the song to play.
+     */
     public void playMusic(String songName) {
         if (!songs.containsKey(songName)) {
             System.out.println("Song not found in the library.");
@@ -41,7 +64,9 @@ public class MusicPlayer {
         musicThread.start();
     }
 
-    // Stop the music
+    /**
+     * This method stops the music if it's currently playing.
+     */
     public void stopMusic() {
         if (player != null) {
             player.close();
@@ -53,7 +78,11 @@ public class MusicPlayer {
         }
     }
 
-    // List all available songs in the library
+    /**
+     * This method returns a map of all available songs in the library.
+     * @return Map<String, String> This returns a map where the keys are song names
+     *         and the values are file paths to the songs.
+     */
     public Map<String, String> getSongs() {
         return songs;
     }

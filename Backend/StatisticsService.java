@@ -30,7 +30,7 @@ public class StatisticsService {
     /**
      * Calculates the task completion percentage for a user.
      *
-     * @param username       The username of the user.
+     * @param username The username of the user.
      * @return Completion percentage as a double.
      */
     public double calculateTaskCompletionPercentage(String username, String goalName) {
@@ -100,27 +100,27 @@ public class StatisticsService {
         return new int[]{totalHours, totalMinutes};
     }
 
-        public List<Task> getIncompleteTasks(String username, String goalName) {
-            CsvEditor.ensureDirectoryExists("UserData/tasks.csv");
+    public List<Task> getIncompleteTasks(String username, String goalName) {
+        CsvEditor.ensureDirectoryExists("UserData/tasks.csv");
 
-            List<Task> incompleteTasks = new ArrayList<>();
+        List<Task> incompleteTasks = new ArrayList<>();
 
-            try (BufferedReader reader = new BufferedReader(new FileReader("UserData/tasks.csv"))) {
-                String line = reader.readLine(); // Skip header
-                while ((line = reader.readLine()) != null) {
-                    String[] columns = line.split(",");
-                    if (columns.length >= 8 && columns[0].equals(username) && columns[1].equals(goalName)) {
-                        if (!Boolean.parseBoolean(columns[7].trim())) { // If task is not complete
-                            incompleteTasks.add(Task.fromCsvRow(columns));
-                        }
+        try (BufferedReader reader = new BufferedReader(new FileReader("UserData/tasks.csv"))) {
+            String line = reader.readLine(); // Skip header
+            while ((line = reader.readLine()) != null) {
+                String[] columns = line.split(",");
+                if (columns.length >= 8 && columns[0].equals(username) && columns[1].equals(goalName)) {
+                    if (!Boolean.parseBoolean(columns[7].trim())) { // If task is not complete
+                        incompleteTasks.add(Task.fromCsvRow(columns));
                     }
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-
-            return incompleteTasks;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+        return incompleteTasks;
+    }
 
 
     public Map<Long, Integer> groupLoggedTimeByWeek(String goalName, String username) {
@@ -146,6 +146,7 @@ public class StatisticsService {
         }
         return weeklyLoggedTime;
     }
+
     public double calculateAccuracy(Map<Long, Integer> weeklyLoggedTime, double weeklyGoal) {
         int weeksMetGoal = 0;
         for (long week : weeklyLoggedTime.keySet()) {
@@ -201,6 +202,14 @@ public class StatisticsService {
         System.out.printf("Weekly hours required to complete the goal by '%s': %.2f hours/week\n", dueDateString, weeklyHours);
         return weeklyHours;
     }
+
+    /**
+     * Calculates the total number of weeks between two dates.
+     *
+     * @param dueDate   The due date in the format "yyyy-MM-dd".
+     * @param startDate The start date in the format "yyyy-MM-dd".
+     * @return The total number of weeks between the two dates, or -1 if there's an error in date parsing.
+     */
     public static long calculateTotalWeeksBetweenDates(String dueDate, String startDate) {
         try {
             // Parse the input dates
@@ -220,6 +229,13 @@ public class StatisticsService {
         }
     }
 
+    /**
+     * Calculates the total logged time for a specific user and goal, aggregating the hours and minutes.
+     *
+     * @param username The username of the user.
+     * @param goalName The name of the goal.
+     * @return An array with total hours [0] and total minutes [1] spent by the user on the specified goal.
+     */
     public int[] calculateLoggedTime(String username, String goalName) {
         CsvEditor.ensureDirectoryExists(LOGGED_TIME_FILE);
 
