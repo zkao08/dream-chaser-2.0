@@ -66,7 +66,15 @@ public class StatisticsService {
         return completionPercentage;
     }
 
-
+    /**
+     * Calculates the total time to complete a goal for a user.
+     * The method reads the "tasks.csv" file and sums up the hours and minutes for all tasks related to the given username and goalName.
+     * It then converts any excess minutes into hours.
+     *
+     * @param username The username of the user.
+     * @param goalName The name of the goal.
+     * @return An array where the first element is the total hours and the second element is the remaining minutes.
+     */
     public int[] calculateTotalTimeToComplete(String username, String goalName) {
         // Ensure the TASKS_FILE exists
         CsvEditor.ensureDirectoryExists("UserData/tasks.csv");
@@ -100,6 +108,14 @@ public class StatisticsService {
         return new int[]{totalHours, totalMinutes};
     }
 
+    /**
+     * Retrieves all the incomplete tasks for a specific user and goal.
+     * The method reads the "tasks.csv" file and checks for tasks that are not yet completed.
+     *
+     * @param username The username of the user.
+     * @param goalName The name of the goal.
+     * @return A list of Task objects that are still incomplete.
+     */
     public List<Task> getIncompleteTasks(String username, String goalName) {
         CsvEditor.ensureDirectoryExists("UserData/tasks.csv");
 
@@ -122,7 +138,15 @@ public class StatisticsService {
         return incompleteTasks;
     }
 
-
+    /**
+     * Groups the logged time by week for a specific goal and user.
+     * The method reads the "loggedTime.csv" file, calculates the week number relative to the start date of the goal,
+     * and aggregates the logged hours and minutes by week.
+     *
+     * @param goalName The name of the goal.
+     * @param username The username of the user.
+     * @return A map where the key is the week number and the value is the total logged time in that week.
+     */
     public Map<Long, Integer> groupLoggedTimeByWeek(String goalName, String username) {
         Map<Long, Integer> weeklyLoggedTime = new HashMap<>();
         try (BufferedReader reader = new BufferedReader(new FileReader("UserData/loggedTime.csv"))) {
@@ -147,6 +171,15 @@ public class StatisticsService {
         return weeklyLoggedTime;
     }
 
+    /**
+     * Calculates the accuracy of meeting the weekly goal.
+     * The method compares the logged time for each week to the weekly goal and calculates the percentage of weeks
+     * where the user met or exceeded the goal.
+     *
+     * @param weeklyLoggedTime A map where the key is the week number and the value is the total logged time for that week.
+     * @param weeklyGoal The target weekly goal to be met.
+     * @return A percentage representing how often the weekly goal was met.
+     */
     public double calculateAccuracy(Map<Long, Integer> weeklyLoggedTime, double weeklyGoal) {
         int weeksMetGoal = 0;
         for (long week : weeklyLoggedTime.keySet()) {
